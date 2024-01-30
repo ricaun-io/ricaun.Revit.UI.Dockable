@@ -17,14 +17,13 @@ namespace ricaun.Revit.UI.Dockable.Revit
         {
             dockablePaneCreatorService = new DockablePaneCreatorService(application);
             dockablePaneCreatorService.Initialize();
-            application.ControlledApplication.ApplicationInitialized += (sender, args) =>
-            {
-                dockablePaneCreatorService.Register(DockablePage.Guid, new DockablePage(), new DockablePaneProvider(), new DockablePaneHideWhenFamilyDocument());
-            };
+
+            dockablePaneCreatorService.Register(DockablePage.Guid, new DockablePage(), new DockablePaneProvider(), new DockablePaneHideWhenFamilyDocument());
 
             ribbonPanel = application.CreatePanel("Dockable");
             ribbonPanel.CreatePushButton<Commands.Command>("Show/Hide")
                 .SetLargeImage("/UIFrameworkRes;component/ribbon/images/revit.ico");
+
             return Result.Succeeded;
         }
 

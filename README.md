@@ -18,21 +18,19 @@ The `DockablePaneCreatorService` class implements some methods to `Register` a `
 ```C#
 public class App : IExternalApplication
 {
-    public static DockablePaneCreatorService DockablePaneCreatorService;
+    public static DockablePaneCreatorService dockablePaneCreatorService;
     public Result OnStartup(UIControlledApplication application)
     {
-        DockablePaneCreatorService = new DockablePaneCreatorService(application);
-        DockablePaneCreatorService.Initialize();
-        application.ControlledApplication.ApplicationInitialized += (sender, args) =>
-        {
-            DockablePaneCreatorService.Register(DockablePage.Guid, new DockablePage());
-        };
+        dockablePaneCreatorService = new DockablePaneCreatorService(application);
+        dockablePaneCreatorService.Initialize();
+        dockablePaneCreatorService.Register(DockablePage.Guid, new DockablePage());
+
         return Result.Succeeded;
     }
 
     public Result OnShutdown(UIControlledApplication application)
     {
-        DockablePaneCreatorService.Dispose();
+        dockablePaneCreatorService.Dispose();
         return Result.Succeeded;
     }
 }
@@ -73,50 +71,47 @@ The `IDockablePaneDocumentProvider` is the interface to detect when the `Dockabl
 
 ### Register
 
-To `Register` a `DockablePane` in Revit, you need to provide the `Guid` of the `DockablePane` and the `Page`, the best place to do this is in the `ApplicationInitialized` event.
+To `Register` a `DockablePane` in Revit, you need to provide the `Guid` of the `DockablePane` and the `Page`, the best place to do this is in the `IExternalApplication.OnStartup` method.
 
-**The `Register` of a `DockablePane` only works before Revit finish initialize, or in the `ApplicationInitialized` event.**
+**The `Register` of a `DockablePane` only works before Revit finish initialize.**
 
 ```C#
-application.ControlledApplication.ApplicationInitialized += (sender, args) =>
-{
-    DockablePaneCreatorService.Register(DockablePage.Guid, new DockablePage());
-};
+dockablePaneCreatorService.Register(DockablePage.Guid, new DockablePage());
 ```
 
 #### Register with title
 
 To `Register` a `DockablePane` in Revit with a title, you need to provide the `Guid` of the `DockablePane`, the `Page` and the `title`, by default the if no title is provide the `DockablePane` will be registered with title of the `Page` if exists.
 ```C#
-DockablePaneCreatorService.Register(DockablePage.Guid, "Dockable Title", new DockablePage());
+dockablePaneCreatorService.Register(DockablePage.Guid, "Dockable Title", new DockablePage());
 ```
 
 #### Register with IDockablePaneProvider
 
 To `Register` a `DockablePane` in Revit with a `IDockablePaneProvider`, you need to provide the `Guid` of the `DockablePane` and the `Page` with the interface `IDockablePaneProvider`, by default if the `Page` contain the interface that gonna be register.
 ```C#
-DockablePaneCreatorService.Register(DockablePage.Guid, "Dockable Title", new DockablePage(), new DockablePaneProvider());
+dockablePaneCreatorService.Register(DockablePage.Guid, "Dockable Title", new DockablePage(), new DockablePaneProvider());
 ```
 
 #### Register with IDockablePaneDocumentProvider
 
 To `Register` a `DockablePane` in Revit with a `IDockablePaneDocumentProvider`, you need to provide the `Guid` of the `DockablePane` and the `Page` with the interface `IDockablePaneDocumentProvider`, by default if the `Page` contain the interface that gonna be register.
 ```C#
-DockablePaneCreatorService.Register(DockablePage.Guid, "Dockable Title", new DockablePage(), new DockablePaneDocumentProvider());
+dockablePaneCreatorService.Register(DockablePage.Guid, "Dockable Title", new DockablePage(), new DockablePaneDocumentProvider());
 ```
 
 ### Get
 
 To `Get` a `DockablePane` in Revit, you need to provide the `Guid` of the `DockablePane`.
 ```C#
-DockablePane dockablePane = App.DockablePaneCreatorService.Get(DockablePage.Guid);
+DockablePane dockablePane = App.dockablePaneCreatorService.Get(DockablePage.Guid);
 ```
 
 ### GetFrameworkElement
 
 To `GetFrameworkElement` of a `DockablePane` in Revit, you need to provide the `Guid` of the `DockablePane`.
 ```C#
-FrameworkElement frameworkElement = App.DockablePaneCreatorService.GetFrameworkElement(DockablePage.Guid);
+FrameworkElement frameworkElement = App.dockablePaneCreatorService.GetFrameworkElement(DockablePage.Guid);
 ```
 
 ### Extensions
@@ -127,6 +122,13 @@ The `DockablePaneExtension` class implements some extensions methods to `TryShow
 
 * [Latest release](../../releases/latest)
 
+## Video
+
+Video in English about this project.
+
+[![VideoIma1]][Video1]
+[![VideoIma2]][Video2]
+
 ## License
 
 This project is [licensed](LICENSE) under the [MIT Licence](https://en.wikipedia.org/wiki/MIT_License).
@@ -134,3 +136,8 @@ This project is [licensed](LICENSE) under the [MIT Licence](https://en.wikipedia
 ---
 
 Do you like this project? Please [star this project on GitHub](../../stargazers)!
+
+[Video1]: https://youtu.be/6Vh0yhkVrxI
+[VideoIma1]: https://img.youtube.com/vi/6Vh0yhkVrxI/mqdefault.jpg
+[Video2]: https://youtu.be/GX35wW-RO6w
+[VideoIma2]: https://img.youtube.com/vi/GX35wW-RO6w/mqdefault.jpg

@@ -56,7 +56,7 @@
 
   <PropertyGroup>
     <PackageId>ricaun.Revit.UI.Dockable</PackageId>
-    <Version>1.0.0-alpha</Version>
+    <Version>1.0.0-alpha.1</Version>
     <ProjectGuid>{83C82453-EB47-4CE8-803E-B4CFDE006006}</ProjectGuid>
   </PropertyGroup>
 
